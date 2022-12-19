@@ -65,14 +65,12 @@ const expressionGenerator = (settings: Settings) => {
       if (settings.allowParentheses && randInt(2)) {
         let l = randInt(n - 1);
         let r = randInt(n + 1, l + 2);
-        while (l == 0 && r == n - 1) {
+        while (l == 0 && r == n) {
           l = randInt(n - 1);
           r = randInt(n + 1, l + 2);
         }
-        if (l > 0 || r <= n - 2) {
-          operators.splice(l, 0, "(");
-          operators.splice(r, 0, ")");
-        }
+        operators.splice(l, 0, "(");
+        operators.splice(r, 0, ")");
       }
       expr = "";
       let j = 0;
