@@ -19,15 +19,22 @@ const math = create({
   divideDependencies,
   unaryMinusDependencies,
 });
+
 const evalExpr: (e: string) => number = expression => {
   const t = expression.replace(/×/g, "*").replace(/÷/g, "/");
   return round(math.evaluate(t));
 };
+
 const randInt = (max: number, min: number = 0) =>
   Math.floor(Math.random() * (max - min) + min);
+
 const expressionGenerator = (settings: Settings) => {
   const n = unref(settings.numberOfOperands);
   const numberRange = unref(settings.numberRange);
+
+  /**
+   * 生成长为 n 的操作数序列
+   */
   const operandsGen = () =>
     Array.from<void, string>({ length: n }, () => {
       const i = round(
@@ -37,21 +44,32 @@ const expressionGenerator = (settings: Settings) => {
       );
       return i < 0 ? `(${i})` : `${i}`;
     });
+
+  /**
+   * 生成长为 n - 1 的运算符序列
+   */
   const operatorsGen = () =>
     Array.from<void, string>(
       { length: n - 1 },
       () => [" + ", " - ", " × ", " ÷ "][randInt(4)]
     );
 
+  /**
+   * 将操作数与运算符“组装”成最终表达式
+   */
   const expression = (() => {
     let expr = "";
     do {
       const operands = operandsGen();
       const operators = operatorsGen();
       if (settings.allowParentheses && randInt(2)) {
-        const l = randInt(operators.length - 1);
-        const r = randInt(operators.length + 2, l + 2);
-        if (l > 0 || r <= operators.length) {
+        let l = randInt(n - 1);
+        let r = randInt(n + 1, l + 2);
+        while (l == 0 && r == n - 1) {
+          l = randInt(n - 1);
+          r = randInt(n + 1, l + 2);
+        }
+        if (l > 0 || r <= n - 2) {
           operators.splice(l, 0, "(");
           operators.splice(r, 0, ")");
         }

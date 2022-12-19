@@ -128,7 +128,7 @@ onMounted(generate);
   <main class="info" v-else>
     <div>
       你还没有设置题目信息哦，快去
-      <RouterLink class="link-info" to="/settings">
+      <RouterLink class="link-primary" to="/settings">
         <i class="bi bi-gear"></i> 设置
       </RouterLink>
       页面修改吧！

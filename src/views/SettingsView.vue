@@ -2,7 +2,7 @@
 import { useSettingsStore } from "@/stores/settings";
 import { isValidSetting } from "@/data/validate";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const {
@@ -23,7 +23,25 @@ const numberOfMultipleChoicesTemp = ref(numberOfMultipleChoices.value);
 const numberOfFillInTheBlanksTemp = ref(numberOfFillInTheBlanks.value);
 
 const router = useRouter();
-
+const submitDisabled = computed(
+  () =>
+    (numberRangeTemp.value === numberRange.value &&
+      numberOfOperandsTemp.value === numberOfOperands.value &&
+      allowNegativeTemp.value === allowNegative.value &&
+      allowParenthesesTemp.value === allowParentheses.value &&
+      numberOfJudgments.value === numberOfJudgmentsTemp.value &&
+      numberOfFillInTheBlanks.value === numberOfFillInTheBlanksTemp.value &&
+      numberOfMultipleChoices.value === numberOfMultipleChoicesTemp.value) ||
+    !isValidSetting({
+      numberRange: numberRangeTemp,
+      numberOfOperands: numberOfOperandsTemp,
+      allowNegative: allowNegativeTemp,
+      allowParentheses: allowParenthesesTemp,
+      numberOfJudgments: numberOfJudgmentsTemp,
+      numberOfFillInTheBlanks: numberOfFillInTheBlanksTemp,
+      numberOfMultipleChoices: numberOfMultipleChoicesTemp,
+    })
+);
 const saveSettings = () => {
   useSettingsStore().applySettings({
     numberRange: numberRangeTemp,
@@ -150,24 +168,7 @@ const saveSettings = () => {
     <button
       type="submit"
       class="btn btn-primary"
-      :disabled="
-        (numberRangeTemp === numberRange &&
-          numberOfOperandsTemp === numberOfOperands &&
-          allowNegativeTemp === allowNegative &&
-          allowParenthesesTemp === allowParentheses &&
-          numberOfJudgments === numberOfJudgmentsTemp &&
-          numberOfFillInTheBlanks === numberOfFillInTheBlanksTemp &&
-          numberOfMultipleChoices === numberOfMultipleChoicesTemp) ||
-        !isValidSetting({
-          numberRange: numberRangeTemp,
-          numberOfOperands: numberOfOperandsTemp,
-          allowNegative: allowNegativeTemp,
-          allowParentheses: allowParenthesesTemp,
-          numberOfJudgments: numberOfJudgmentsTemp,
-          numberOfFillInTheBlanks: numberOfFillInTheBlanksTemp,
-          numberOfMultipleChoices: numberOfMultipleChoicesTemp,
-        })
-      "
+      :disabled="submitDisabled"
       @click="saveSettings"
     >
       保存并开始
@@ -191,7 +192,7 @@ input[type="number"] {
 }
 
 form {
-  margin: 20%;
+  margin: 10% 20%;
   display: grid;
   align-items: center;
 }
