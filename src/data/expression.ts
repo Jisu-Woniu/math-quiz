@@ -7,9 +7,8 @@ import {
   divideDependencies,
   unaryMinusDependencies,
 } from "mathjs/number";
-import type { MathJsStatic } from "mathjs";
 
-const math: MathJsStatic = create({
+const math = create({
   evaluateDependencies,
   addDependencies,
   subtractDependencies,
