@@ -42,6 +42,7 @@ const submitDisabled = computed(
       numberOfMultipleChoices: numberOfMultipleChoicesTemp,
     })
 );
+
 const saveSettings = () => {
   useSettingsStore().applySettings({
     numberRange: numberRangeTemp,
