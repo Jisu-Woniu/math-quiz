@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { evalExpr } from "@/data/questionGenerator";
+import { evalExpr } from "@/data/expression";
 import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
@@ -16,10 +16,10 @@ const realAnswer = computed(() => evalExpr(props.expression));
 
 const isCorrect = computed<boolean>({
   get: () => props.isCorrect,
-  set: (value) => emits("update:isCorrect", value),
+  set: value => emits("update:isCorrect", value),
 });
 
-watch(picked, (pickedValue) => {
+watch(picked, pickedValue => {
   isCorrect.value =
     pickedValue !== undefined &&
     realAnswer.value === props.options[pickedValue];

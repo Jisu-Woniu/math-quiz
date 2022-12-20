@@ -1,41 +1,28 @@
-import { type Question, QuestionType, round } from "@/data/question";
-import type { Settings } from "./validate";
+import { type Question, QuestionType } from "./question";
+import type { Setting } from "./setting";
 import { unref } from "vue";
-import {
-  create,
-  evaluateDependencies,
-  addDependencies,
-  subtractDependencies,
-  multiplyDependencies,
-  divideDependencies,
-  unaryMinusDependencies,
-} from "mathjs/number";
+import { evalExpr, round } from "./expression";
 
-const math = create({
-  evaluateDependencies,
-  addDependencies,
-  subtractDependencies,
-  multiplyDependencies,
-  divideDependencies,
-  unaryMinusDependencies,
-});
-
-const evalExpr: (e: string) => number = expression => {
-  const t = expression.replace(/×/g, "*").replace(/÷/g, "/");
-  return round(math.evaluate(t));
-};
-
+/**
+ * 生成 [min, max) 范围的随机数
+ * @param max 随机数上界（不含）
+ * @param min 随机数下界
+ */
 const randInt = (max: number, min: number = 0) =>
   Math.floor(Math.random() * (max - min) + min);
 
-const expressionGenerator = (settings: Settings) => {
+/**
+ * 根据设置生成表达式
+ * @param settings 设置项
+ */
+const expressionGenerator = (settings: Setting): string => {
   const n = unref(settings.numberOfOperands);
   const numberRange = unref(settings.numberRange);
 
   /**
    * 生成长为 n 的操作数序列
    */
-  const operandsGen = () =>
+  const operandsGen = (): string[] =>
     Array.from<void, string>({ length: n }, () => {
       const i = round(
         unref(settings.allowNegative)
@@ -48,21 +35,22 @@ const expressionGenerator = (settings: Settings) => {
   /**
    * 生成长为 n - 1 的运算符序列
    */
-  const operatorsGen = () =>
+  const operatorsGen = (): string[] =>
     Array.from<void, string>(
       { length: n - 1 },
       () => [" + ", " - ", " × ", " ÷ "][randInt(4)]
     );
 
   /**
-   * 将操作数与运算符“组装”成最终表达式
+   * 将操作数与运算符组合成最终表达式
    */
-  const expression = (() => {
+  const expression = ((): string => {
     let expr = "";
     do {
       const operands = operandsGen();
       const operators = operatorsGen();
       if (settings.allowParentheses && randInt(2)) {
+        // 生成括号序列
         let l = randInt(n - 1);
         let r = randInt(n + 1, l + 2);
         while (l == 0 && r == n) {
@@ -97,10 +85,35 @@ const expressionGenerator = (settings: Settings) => {
   return expression;
 };
 
-const questionGenerator = (settings: Settings) => [
+/**
+ * 从列表中乱序选出若干项
+ * @param xs 待选择项构成的列表
+ * @param n 需选择项的数目
+ */
+const shuffleAndChoose = <T>(xs: T[], n?: number): T[] => {
+  if (n === undefined) {
+    n = xs.length;
+  }
+
+  // Fisher-Yates 算法
+  for (let i = 0; i < n; i++) {
+    const j = randInt(i, n);
+    const t = xs[i];
+    xs[i] = xs[j];
+    xs[j] = t;
+  }
+
+  return xs.slice(0, n);
+};
+
+/**
+ * 根据设置生成问题列表
+ * @param settings 设置项
+ */
+const questionGenerator = (settings: Setting) => [
   ...Array.from<void, Question>(
     { length: unref(settings.numberOfJudgments) },
-    () => {
+    (): Question => {
       const expression = expressionGenerator(settings);
       const realAnswer = evalExpr(expression);
       const answer = round(
@@ -115,20 +128,7 @@ const questionGenerator = (settings: Settings) => [
   ),
   ...Array.from<void, Question>(
     { length: unref(settings.numberOfMultipleChoices) },
-    () => {
-      const shuffleAndChoose = (xs: number[], n?: number) => {
-        if (n === undefined) {
-          n = xs.length;
-        }
-
-        for (let i = 0; i < n; i++) {
-          const j = randInt(i, n);
-          const t = xs[i];
-          xs[i] = xs[j];
-          xs[j] = t;
-        }
-        return xs.slice(0, n);
-      };
+    (): Question => {
       const expression = expressionGenerator(settings);
       const realAnswer = evalExpr(expression);
       const options = shuffleAndChoose([
@@ -158,13 +158,11 @@ const questionGenerator = (settings: Settings) => [
   ),
   ...Array.from<void, Question>(
     { length: unref(settings.numberOfFillInTheBlanks) },
-    () => {
-      return {
-        questionType: QuestionType.FillInTheBlank,
-        expression: expressionGenerator(settings),
-      };
-    }
+    (): Question => ({
+      questionType: QuestionType.FillInTheBlank,
+      expression: expressionGenerator(settings),
+    })
   ),
 ];
 
-export { questionGenerator, evalExpr };
+export { questionGenerator };

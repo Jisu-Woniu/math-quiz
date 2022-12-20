@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/settings";
-import { isValidSetting } from "@/data/validate";
+import { isValidSetting } from "@/data/setting";
 import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
@@ -87,7 +87,10 @@ const saveSettings = () => {
       </div>
     </div>
     <div class="row mb-3">
-      <label class="col-lg-3 col-form-label" for="number-of-fill-in-the-blanks">
+      <label
+        class="col-lg-3 col-form-label"
+        for="number-of-fill-in-the-blanks"
+      >
         填空题个数：
       </label>
       <div class="col-lg-5">

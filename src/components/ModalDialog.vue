@@ -18,7 +18,7 @@ const showModal = computed({
   set: value => emits("update:modelValue", value),
 });
 
-const displayModal = ref(true);
+const showModalDialog = ref(true);
 </script>
 <template>
   <Teleport to="body">
@@ -26,10 +26,10 @@ const displayModal = ref(true);
       <div
         v-if="showModal"
         class="modal modal-mask"
-        @click="displayModal = !displayModal"
-        :class="{ 'modal-mask-fade': !displayModal }"
+        @click="showModalDialog = !showModalDialog"
+        :class="{ 'modal-mask-fade': !showModalDialog }"
       >
-        <div v-if="displayModal" class="modal-dialog">
+        <div v-if="showModalDialog" class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">
@@ -84,7 +84,7 @@ const displayModal = ref(true);
   transition: opacity 0.3s linear;
 }
 .modal-mask-fade {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .modal-wrapper {
   display: table-cell;

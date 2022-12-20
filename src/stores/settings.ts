@@ -1,8 +1,8 @@
 import { computed, ref, unref } from "vue";
 import { defineStore, type StoreDefinition } from "pinia";
-import type { Settings } from "@/data/validate";
+import type { Setting } from "@/data/setting";
 
-const useSettingsStore: StoreDefinition<"settings", Settings> = defineStore(
+const useSettingsStore: StoreDefinition<"settings", Setting> = defineStore(
   "settings",
   () => {
     const allowNegative = ref(false);
@@ -19,7 +19,7 @@ const useSettingsStore: StoreDefinition<"settings", Settings> = defineStore(
         numberOfMultipleChoices.value
     );
 
-    const applySettings = (settings: Settings) => {
+    const applySettings = (settings: Setting) => {
       allowNegative.value = unref(settings.allowNegative);
       allowParentheses.value = unref(settings.allowParentheses);
       numberOfJudgments.value = unref(settings.numberOfJudgments);

@@ -1,4 +1,3 @@
-{
-  "arrowParens": "avoid",
-  "endOfLine": "auto"
-}
+arrowParens: avoid
+endOfLine: auto
+printWidth: 79

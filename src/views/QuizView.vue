@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import QuestionContainer from "@/components/QuestionContainer.vue";
-import { round, type Question } from "@/data/question";
-import { evalExpr, questionGenerator } from "@/data/questionGenerator";
-import { isValidSetting } from "@/data/validate";
+import type { Question } from "@/data/question";
+import { evalExpr, round } from "@/data/expression";
+import { questionGenerator } from "@/data/questionGenerator";
+import { isValidSetting } from "@/data/setting";
 import { useSettingsStore } from "@/stores/settings";
 import { nextTick, onMounted, ref } from "vue";
 import ModalDialog from "@/components/ModalDialog.vue";

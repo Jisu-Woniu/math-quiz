@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { evalExpr } from "@/data/questionGenerator";
+import { evalExpr } from "@/data/expression";
 import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
@@ -17,10 +17,10 @@ const realAnswer = computed(() => evalExpr(props.expression));
 
 const isCorrect = computed<boolean>({
   get: () => props.isCorrect,
-  set: (value) => emits("update:isCorrect", value),
+  set: value => emits("update:isCorrect", value),
 });
 
-watch(picked, (pickedValue) => {
+watch(picked, pickedValue => {
   isCorrect.value =
     pickedValue !== undefined &&
     pickedValue === (realAnswer.value === props.result);
@@ -43,7 +43,10 @@ watch(picked, (pickedValue) => {
           :value="true"
           v-model="picked"
         />
-        <label class="form-check-label" :for="`option-right-${questionNumber}`">
+        <label
+          class="form-check-label"
+          :for="`option-right-${questionNumber}`"
+        >
           √
         </label>
       </div>
@@ -56,7 +59,10 @@ watch(picked, (pickedValue) => {
           :value="false"
           v-model="picked"
         />
-        <label class="form-check-label" :for="`option-wrong-${questionNumber}`">
+        <label
+          class="form-check-label"
+          :for="`option-wrong-${questionNumber}`"
+        >
           ×
         </label>
       </div>

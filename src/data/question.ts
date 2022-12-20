@@ -30,6 +30,4 @@ type Question =
   | JudgmentQuestion
   | MultipleChoiceQuestion;
 
-const round = (x: number) => Math.round(x * 10) / 10;
-
-export { QuestionType, type Question, round };
+export { QuestionType, type Question };

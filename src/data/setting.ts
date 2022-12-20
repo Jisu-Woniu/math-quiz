@@ -1,6 +1,6 @@
 import { unref, type Ref } from "vue";
 
-export interface Settings {
+export interface Setting {
   totalNumber?: number;
   numberRange: number | Ref<number>;
   numberOfOperands: number | Ref<number>;
@@ -11,7 +11,7 @@ export interface Settings {
   numberOfFillInTheBlanks: number | Ref<number>;
 }
 
-export const isValidSetting = (s: Settings) => {
+export const isValidSetting = (s: Setting) => {
   const numberRange = unref(s.numberRange);
   const numberOfOperands = unref(s.numberOfOperands);
   const allowParentheses = unref(s.allowParentheses);
