@@ -71,7 +71,7 @@ const showModalDialog = ref(true);
   </Teleport>
 </template>
 <style scoped lang="scss">
-@import "bootstrap/scss/bootstrap.scss";
+@import "bootstrap/scss/bootstrap-utilities.scss";
 .modal-mask {
   position: fixed;
   z-index: $zindex-modal-backdrop;

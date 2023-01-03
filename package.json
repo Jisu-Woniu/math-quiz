@@ -15,6 +15,7 @@
     "bootstrap-icons": "^1.10.3",
     "mathjs": "^11.5.0",
     "pinia": "^2.0.28",
+    "vite-plugin-purgecss": "^0.2.12",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
