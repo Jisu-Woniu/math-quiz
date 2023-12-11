@@ -1,6 +1,7 @@
 {
   "name": "math-quiz",
   "version": "0.1.0",
+  "type": "module",
   "scripts": {
     "dev": "vite --open",
     "build": "run-p type-check build-only",

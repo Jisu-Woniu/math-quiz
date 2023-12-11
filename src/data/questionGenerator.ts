@@ -78,7 +78,7 @@ const expressionGenerator = (settings: Setting): string => {
         }
       }
       if (j < operands.length) expr += operands[j];
-    } while (Math.abs(evalExpr(expr)) > settings.numberRange);
+    } while (Math.abs(evalExpr(expr)) > unref(settings.numberRange));
     return expr;
   })();
 
