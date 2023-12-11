@@ -17,7 +17,7 @@ const generate = () => {
     questions.value = questionGenerator(settings);
     isCorrect.value = Array.from(
       { length: settings.totalNumber ?? 0 },
-      () => false
+      () => false,
     );
   }
 };
@@ -29,24 +29,24 @@ const download = () => {
         isCorrect.value[i]
           ? "正确"
           : "错误，正确答案：" + evalExpr(q.expression)
-      }`
+      }`,
   );
   report.push(
     `共 ${settings.totalNumber} 题，你答对了 ${
-      isCorrect.value.filter(v => v).length
+      isCorrect.value.filter((v) => v).length
     } 题，得分 ${round(
-      (isCorrect.value.filter(v => v).length / (settings.totalNumber ?? 1)) *
-        100
-    )}`
+      (isCorrect.value.filter((v) => v).length / (settings.totalNumber ?? 1)) *
+        100,
+    )}`,
   );
   const blob = new Blob([report.join("\n")], {
     type: "text/plain",
   });
   anchor.href = URL.createObjectURL(blob);
   anchor.download =
-    (d =>
+    ((d) =>
       `Report-${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}`)(
-      new Date()
+      new Date(),
     ) + ".txt";
   anchor.click();
 };
@@ -98,7 +98,7 @@ onMounted(generate);
         <tr
           v-for="i in Array.from(
             { length: settings.totalNumber ?? 0 },
-            (_, i) => i
+            (_, i) => i,
           )"
           :key="i"
         >
@@ -116,11 +116,11 @@ onMounted(generate);
       </table>
       <p>
         共 {{ settings.totalNumber }} 题，你答对了
-        {{ isCorrect.filter(v => v).length }} 题，得分
+        {{ isCorrect.filter((v) => v).length }} 题，得分
         {{
           round(
-            (isCorrect.filter(v => v).length / (settings.totalNumber ?? 1)) *
-              100
+            (isCorrect.filter((v) => v).length / (settings.totalNumber ?? 1)) *
+              100,
           )
         }}
       </p>

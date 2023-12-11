@@ -40,7 +40,7 @@ const submitDisabled = computed(
       numberOfJudgments: numberOfJudgmentsTemp,
       numberOfFillInTheBlanks: numberOfFillInTheBlanksTemp,
       numberOfMultipleChoices: numberOfMultipleChoicesTemp,
-    })
+    }),
 );
 
 const saveSettings = () => {
@@ -88,10 +88,7 @@ const saveSettings = () => {
       </div>
     </div>
     <div class="row mb-3">
-      <label
-        class="col-lg-3 col-form-label"
-        for="number-of-fill-in-the-blanks"
-      >
+      <label class="col-lg-3 col-form-label" for="number-of-fill-in-the-blanks">
         填空题个数：
       </label>
       <div class="col-lg-5">

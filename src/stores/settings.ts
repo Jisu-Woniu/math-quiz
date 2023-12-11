@@ -16,7 +16,7 @@ const useSettingsStore: StoreDefinition<"settings", Setting> = defineStore(
       () =>
         numberOfFillInTheBlanks.value +
         numberOfJudgments.value +
-        numberOfMultipleChoices.value
+        numberOfMultipleChoices.value,
     );
 
     const applySettings = (settings: Setting) => {
@@ -40,6 +40,6 @@ const useSettingsStore: StoreDefinition<"settings", Setting> = defineStore(
       totalNumber,
       applySettings,
     };
-  }
+  },
 );
 export { useSettingsStore };

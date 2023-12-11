@@ -15,10 +15,10 @@ const realAnswer = computed(() => evalExpr(props.expression));
 
 const isCorrect = computed<boolean>({
   get: () => props.isCorrect,
-  set: value => emits("update:isCorrect", value),
+  set: (value) => emits("update:isCorrect", value),
 });
 
-watch(answer, answerValue => {
+watch(answer, (answerValue) => {
   isCorrect.value =
     answerValue !== undefined && realAnswer.value === answerValue;
 });

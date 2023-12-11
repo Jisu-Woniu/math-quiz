@@ -1,15 +1,11 @@
 /// <reference types="vite/client" />
 
 declare module "mathjs/number" {
-  import type {
-    MathJsStatic,
-    ConfigOptions,
-    FactoryFunctionMap,
-  } from "mathjs";
+  import type { MathJsStatic, ConfigOptions, FactoryFunctionMap } from "mathjs";
 
   export const create: (
     factories: FactoryFunctionMap,
-    config?: ConfigOptions
+    config?: ConfigOptions,
   ) => MathJsStatic;
   export const evaluateDependencies: FactoryFunctionMap;
   export const addDependencies: FactoryFunctionMap;

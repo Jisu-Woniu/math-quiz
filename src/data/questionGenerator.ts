@@ -27,7 +27,7 @@ const expressionGenerator = (settings: Setting): string => {
       const i = round(
         unref(settings.allowNegative)
           ? Math.random() * numberRange * 2 - numberRange
-          : Math.random() * numberRange
+          : Math.random() * numberRange,
       );
       return i < 0 ? `(${i})` : `${i}`;
     });
@@ -38,7 +38,7 @@ const expressionGenerator = (settings: Setting): string => {
   const operatorsGen = (): string[] =>
     Array.from<void, string>(
       { length: n - 1 },
-      () => [" + ", " - ", " × ", " ÷ "][randInt(4)]
+      () => [" + ", " - ", " × ", " ÷ "][randInt(4)],
     );
 
   /**
@@ -117,14 +117,14 @@ const questionGenerator = (settings: Setting) => [
       const expression = expressionGenerator(settings);
       const realAnswer = evalExpr(expression);
       const answer = round(
-        randInt(2) ? realAnswer : realAnswer + Math.random() * 2 - 1
+        randInt(2) ? realAnswer : realAnswer + Math.random() * 2 - 1,
       );
       return {
         questionType: QuestionType.Judgment,
         expression,
         result: answer,
       };
-    }
+    },
   ),
   ...Array.from<void, Question>(
     { length: unref(settings.numberOfMultipleChoices) },
@@ -146,7 +146,7 @@ const questionGenerator = (settings: Setting) => [
             realAnswer - 0.4,
             realAnswer - 0.5,
           ],
-          3
+          3,
         ),
       ]).map(round);
       return {
@@ -154,14 +154,14 @@ const questionGenerator = (settings: Setting) => [
         expression,
         options,
       };
-    }
+    },
   ),
   ...Array.from<void, Question>(
     { length: unref(settings.numberOfFillInTheBlanks) },
     (): Question => ({
       questionType: QuestionType.FillInTheBlank,
       expression: expressionGenerator(settings),
-    })
+    }),
   ),
 ];
 

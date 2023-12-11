@@ -7,7 +7,7 @@ const useQuestionsStore: StoreDefinition<"questions"> = defineStore(
   () => {
     const questions = ref<Question[]>([]);
     return { questions };
-  }
+  },
 );
 
 export { useQuestionsStore };

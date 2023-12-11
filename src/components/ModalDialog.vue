@@ -15,7 +15,7 @@ const emits = defineEmits<{
 
 const showModal = computed({
   get: () => props.modelValue,
-  set: value => emits("update:modelValue", value),
+  set: (value) => emits("update:modelValue", value),
 });
 
 const showModalDialog = ref(true);
